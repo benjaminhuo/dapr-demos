@@ -3,16 +3,16 @@ kind: Component
 metadata:
   name: http-events
 spec:
-  type: pubsub.redis
+  type: pubsub.kafka
+  version: v1
   metadata:
-  - name: redisHost
-    value: redis-master.redis.svc.cluster.local:6379
-  - name: redisPassword
-    secretKeyRef:
-      name: redis-secret
-      key: password
-  - name: allowedTopics
-    value: "messages"
-scopes:
-- nginx-ingress
-- http-event-subscriber
+      # Kafka broker connection setting
+    - name: brokers
+      value: "http-events-kafka-0.http-events-kafka-brokers.default.svc:9092,http-events-kafka-1.http-events-kafka-brokers.default.svc:9092,http-events-kafka-2.http-events-kafka-brokers.default.svc:9092"
+    - name: authRequired
+      value: "false"
+    - name: maxMessageBytes
+      value: 1024
+#scopes:
+#- nginx-ingress
+#- http-event-subscriber
